@@ -1,323 +1,389 @@
 # AI-Powered Algorithmic Trading & Backtesting Platform
 
-A production-grade web application for creating, backtesting, and analyzing algorithmic trading strategies with AI-powered signals including sentiment analysis and price prediction.
+A full-stack web application for creating, backtesting, and analyzing algorithmic trading strategies with machine learning enhancements. Features custom Python strategy execution, real-time market data integration, and LSTM-based price prediction.
 
-## 🏗️ Architecture Overview
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.104-green)
+![React](https://img.shields.io/badge/React-18-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
+![Docker](https://img.shields.io/badge/Docker-Compose-blue)
 
-### Backend Stack
-- **FastAPI**: High-performance async web framework
-- **PostgreSQL**: Relational database with async support (asyncpg)
-- **Celery**: Distributed task queue for background backtesting
-- **Redis**: Message broker and result backend for Celery
-- **SQLAlchemy**: ORM with async support
-- **Alpaca API**: Live market data source
+---
 
-### Frontend Stack
-- **React 18** with **TypeScript**
-- **Vite**: Next-generation build tool
-- **TailwindCSS**: Utility-first CSS framework
-- **TradingView Lightweight Charts**: Professional charting library
-- **React Router**: Client-side routing
-- **Axios**: HTTP client
+## 🎯 Project Overview
 
-### AI/ML Components
-- **Sentiment Analysis**: Simulated sentiment scoring (production would use FinBERT)
-- **Price Prediction**: Technical analysis-based prediction signals (LSTM-inspired)
-- **Technical Indicators**: Moving averages, RSI, momentum, mean reversion
+Professional-grade trading platform that enables users to design, backtest, and analyze algorithmic trading strategies with three distinct approaches:
 
-## 📁 Project Structure
+- **Simple MA Crossover**: Classic moving average strategy for beginners
+- **Visual Indicator Builder**: Combine 10+ technical indicators with intelligent signal generation
+- **Custom Python Strategies**: Write custom trading logic with full indicator support in a sandboxed environment
 
-```
-backtesting/
-├── backend/
-│   ├── app/
-│   │   ├── api/
-│   │   │   └── v1/
-│   │   │       ├── endpoints/
-│   │   │       │   ├── strategies.py      # Strategy CRUD endpoints
-│   │   │       │   └── backtests.py       # Backtest execution & status
-│   │   │       └── api.py                 # API router aggregation
-│   │   ├── core/
-│   │   │   ├── config.py                  # Pydantic settings
-│   │   │   └── celery_app.py              # Celery configuration
-│   │   ├── crud/
-│   │   │   ├── crud_strategy.py           # Strategy database operations
-│   │   │   └── crud_backtest.py           # Backtest database operations
-│   │   ├── db/
-│   │   │   └── session.py                 # Database session & engine
-│   │   ├── models/
-│   │   │   ├── strategy.py                # Strategy SQLAlchemy model
-│   │   │   └── backtest_result.py         # BacktestResult model
-│   │   ├── schemas/
-│   │   │   ├── strategy.py                # Pydantic schemas for strategies
-│   │   │   └── backtest_result.py         # Pydantic schemas for results
-│   │   ├── services/
-│   │   │   ├── data_service.py            # Alpaca API data fetching
-│   │   │   ├── ai_signals.py              # Sentiment & prediction signals
-│   │   │   └── backtester.py              # Core backtesting engine
-│   │   └── tasks/
-│   │       └── run_backtest_task.py       # Celery background task
-│   ├── main.py                            # FastAPI application entrypoint
-│   ├── requirements.txt                   # Python dependencies
-│   └── Dockerfile                         # Backend container
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── Navbar.tsx                 # Navigation bar
-│   │   │   ├── TradingChart.tsx           # Price chart with trade markers
-│   │   │   └── EquityChart.tsx            # Portfolio equity curve
-│   │   ├── pages/
-│   │   │   ├── Dashboard.tsx              # Main dashboard view
-│   │   │   ├── StrategyBuilder.tsx        # Strategy creation form
-│   │   │   └── ResultsPage.tsx            # Detailed backtest results
-│   │   ├── services/
-│   │   │   └── api.ts                     # API client
-│   │   ├── types/
-│   │   │   └── index.ts                   # TypeScript type definitions
-│   │   ├── App.tsx                        # Root component
-│   │   ├── main.tsx                       # Application entry point
-│   │   └── index.css                      # Global styles
-│   ├── package.json                       # Frontend dependencies
-│   ├── vite.config.ts                     # Vite configuration
-│   ├── tailwind.config.js                 # Tailwind configuration
-│   └── Dockerfile                         # Frontend container
-├── docker-compose.yml                     # Multi-container orchestration
-├── .env.example                           # Environment variables template
-└── README.md                              # This file
-```
+### Key Capabilities
+
+- **Real-time Market Data**: Integration with Alpaca Markets API for historical stock data
+- **Machine Learning**: LSTM neural networks for price prediction and trend forecasting
+- **Advanced Analytics**: Comprehensive performance metrics including Sharpe ratio, drawdown analysis, and win rates
+- **Async Processing**: Background task execution for non-blocking backtests
+- **Benchmark Comparison**: Compare strategy performance against SPY and buy-and-hold approaches
+- **Production-Ready**: Fully containerized with Docker for consistent deployment
+
+---
+
+## 🏗️ Technology Stack
+
+### Backend
+- **FastAPI** - High-performance async Python web framework
+- **PostgreSQL** - Relational database with async support (asyncpg)
+- **SQLAlchemy** - Modern ORM with async capabilities
+- **Celery** - Distributed task queue for background processing
+- **Redis** - Message broker and caching layer
+- **TensorFlow/Keras** - LSTM neural network implementation
+- **pandas & NumPy** - Financial data analysis and computation
+- **Alpaca API** - Real-time and historical market data
+- **RestrictedPython** - Sandboxed execution of user-defined strategies
+
+### Frontend
+- **React 18** - Modern UI library with hooks
+- **TypeScript** - Type-safe JavaScript
+- **Vite** - Next-generation build tool and dev server
+- **TailwindCSS** - Utility-first CSS framework
+- **Recharts** - Composable charting library for data visualization
+- **React Router** - Client-side routing
+- **Axios** - Promise-based HTTP client
+
+### Infrastructure
+- **Docker & Docker Compose** - Containerization and orchestration
+- **uvicorn** - ASGI server for FastAPI
+- **JWT Authentication** - Secure user authentication
+
+### Machine Learning & Analytics
+- **LSTM (Long Short-Term Memory)** - Sequential neural network for price prediction
+- **Technical Indicators**: RSI, MACD, Bollinger Bands, Stochastic Oscillator, CCI, ADX, ATR, OBV, SMA/EMA
+- **Custom Strategy Execution** - Safe Python code execution with RestrictedPython
+- **Multi-Indicator Signal Generation** - Majority voting system for combining indicator signals
+
+---
+
+## ✨ Features
+
+### Strategy Creation
+- **Three Strategy Modes**: Simple, Visual Indicators, Custom Python Code
+- **10+ Technical Indicators**: Momentum, trend, volatility, and volume indicators
+- **LSTM Price Prediction**: Optional ML-based price forecasting
+- **Custom Code Editor**: Write Python strategies with template support and validation
+- **Parameter Optimization**: Configurable position sizing and capital allocation
+
+### Backtesting Engine
+- **Event-Driven Simulation**: Day-by-day trade execution
+- **Realistic Position Sizing**: Fractional share support
+- **Multiple Signal Sources**: Technical indicators, AI predictions, custom logic
+- **Stock Split Handling**: Automatic price and volume adjustments
+- **Benchmark Comparison**: SPY index and buy-and-hold strategies
+
+### Analytics & Visualization
+- **Performance Metrics**:
+  - Total Return & Final Portfolio Value
+  - Sharpe Ratio (risk-adjusted returns)
+  - Maximum Drawdown
+  - Win Rate & Trade Statistics
+- **Interactive Charts**:
+  - Equity curve with benchmark overlay
+  - Price action with buy/sell markers
+  - Indicator overlays
+- **Detailed Trade Logs**: Complete transaction history with P&L
+
+### User Experience
+- **Real-time Updates**: Polling for backtest status
+- **Responsive Design**: Mobile-friendly interface
+- **Strategy Management**: Edit, delete, and re-run backtests
+- **Multi-Strategy Dashboard**: Compare strategies at a glance
+- **Error Handling**: Comprehensive validation and error messages
+
+---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Docker & Docker Compose installed
-- (Optional) Alpaca API account for live market data
+- Docker Desktop installed
+- (Optional) Alpaca API account for live market data: https://alpaca.markets/
 
-### 1. Clone & Setup
+### Quick Start
 
+1. **Clone the repository**
 ```bash
-# Navigate to project directory
-cd backtesting
+git clone https://github.com/yourusername/ai-trading-backtester.git
+cd ai-trading-backtester
+```
 
+2. **Configure environment**
+```bash
 # Copy environment template
 cp .env.example .env
 
-# (Optional) Edit .env with your Alpaca API credentials
-# If no credentials provided, the system will use simulated data
-nano .env
+# Edit .env and add your Alpaca API credentials (optional)
+# If not provided, system uses simulated data
 ```
 
-### 2. Launch the Application
-
+3. **Launch with Docker**
 ```bash
 # Build and start all services
-docker-compose up --build
-
-# Or run in detached mode
 docker-compose up --build -d
+
+# Check service status
+docker-compose ps
 ```
 
-This command will:
-1. Start PostgreSQL database on port 5432
-2. Start Redis message broker on port 6379
-3. Build and start FastAPI backend on port 8000
-4. Build and start Celery worker for background tasks
-5. Build and start React frontend on port 5173
+4. **Access the application**
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:8000
+- API Documentation: http://localhost:8000/docs
 
-### 3. Access the Application
+### Services Started
+- **PostgreSQL** (port 5432) - Database
+- **Redis** (port 6379) - Task broker
+- **FastAPI Backend** (port 8000) - REST API
+- **Celery Worker** - Background task processor
+- **React Frontend** (port 5173) - Web UI
 
-- **Frontend**: http://localhost:5173
-- **Backend API**: http://localhost:8000
-- **API Documentation**: http://localhost:8000/docs
-
-### 4. Stop the Application
-
-```bash
-# Stop all services
-docker-compose down
-
-# Stop and remove volumes (clears database)
-docker-compose down -v
-```
+---
 
 ## 📊 How It Works
 
-### 1. Create a Strategy
-Navigate to "Create Strategy" and define:
-- **Basic Info**: Name, ticker symbol, date range
-- **Parameters**: Moving average periods, initial capital, position size
-- **AI Signals**: Enable sentiment analysis and/or price prediction
+### Strategy Execution Flow
 
-### 2. Backtest Execution
-When you create a strategy:
-1. Strategy is saved to PostgreSQL
-2. Celery task is queued immediately
-3. Worker fetches historical data via Alpaca API
-4. AI signals are generated (if enabled)
-5. Backtesting engine simulates trades day-by-day
-6. Results are saved to database
-7. Frontend polls for completion
+1. **User creates strategy** via web interface
+2. **API saves strategy** to PostgreSQL database
+3. **Celery task queued** for background processing
+4. **Worker fetches data** from Alpaca API
+5. **LSTM model runs** (if enabled) for price predictions
+6. **Backtesting engine** simulates trades day-by-day
+7. **Results calculated** and saved to database
+8. **Frontend displays** analytics and visualizations
 
-### 3. View Results
-The results page displays:
-- **Key Metrics**: Total return, Sharpe ratio, max drawdown
-- **Trade Statistics**: Total trades, win rate, winning/losing trades
-- **Equity Curve Chart**: Portfolio value over time
-- **Price Action Chart**: Price history with BUY/SELL markers
-- **Trade Log Table**: Detailed transaction history
+### Signal Generation
 
-## 🧠 Trading Strategy Logic
+#### Simple Mode
+- Moving average crossover (golden cross/death cross)
+- Optional LSTM prediction filter
 
-### Base Strategy: Moving Average Crossover
-- **Buy Signal**: Short MA crosses above Long MA
-- **Sell Signal**: Short MA crosses below Long MA
+#### Indicator Mode
+- Each indicator generates buy/sell signals using technical analysis rules
+- Majority voting system combines signals
+- ADX filter ensures strong trends (>25)
 
-### AI Enhancement (Optional)
-- **Sentiment Analysis**: Requires positive sentiment (>-0.2) to confirm buy
-- **Price Prediction**: Uses prediction probability to validate signals
-- **Combined**: Both signals must agree or be neutral
+#### Custom Mode
+- User-provided Python code executed in sandboxed environment
+- Access to all selected indicators
+- Full pandas/NumPy support
+- Security restrictions prevent harmful operations
+
+---
+
+## 🧠 Technical Indicators
+
+The platform implements these indicators from scratch using pandas and NumPy:
+
+| Indicator | Category | Use Case |
+|-----------|----------|----------|
+| **RSI** (Relative Strength Index) | Momentum | Overbought/oversold conditions |
+| **MACD** (Moving Average Convergence Divergence) | Trend | Trend direction and momentum |
+| **Bollinger Bands** | Volatility | Price extremes and mean reversion |
+| **Stochastic Oscillator** | Momentum | Overbought/oversold with momentum |
+| **SMA/EMA** (Moving Averages) | Trend | Trend direction and support/resistance |
+| **CCI** (Commodity Channel Index) | Momentum | Cyclical trends and extremes |
+| **ADX** (Average Directional Index) | Trend | Trend strength (not direction) |
+| **ATR** (Average True Range) | Volatility | Position sizing and stop losses |
+| **OBV** (On Balance Volume) | Volume | Volume-price confirmation |
+| **Williams %R** | Momentum | Overbought/oversold timing |
+
+---
+
+## 🤖 Machine Learning Architecture
+
+### LSTM Price Prediction
+
+- **Architecture**: Sequential neural network with LSTM layers
+- **Input Features**: Multi-day price sequences (configurable lookback)
+- **Output**: Next-day price probability
+- **Training**: Automated training on historical data per ticker
+- **Integration**: Optional signal filter in backtesting engine
+- **Framework**: TensorFlow/Keras
+
+### Model Pipeline
+1. Fetch historical price data
+2. Create time-series sequences
+3. Normalize data for training
+4. Train LSTM with validation split
+5. Generate predictions for backtest period
+6. Apply predictions as signal filters
+
+---
 
 ## 🔧 Configuration
 
-### Backend Environment Variables
+### Environment Variables
+
+**Backend** (`.env`):
 ```env
 DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/trading_db
 CELERY_BROKER_URL=redis://redis:6379/0
-ALPACA_API_KEY=your_api_key
-ALPACA_API_SECRET=your_api_secret
+CELERY_RESULT_BACKEND=redis://redis:6379/0
+SECRET_KEY=your_secret_key_here
+ALPACA_API_KEY=your_alpaca_key
+ALPACA_API_SECRET=your_alpaca_secret
 ```
 
-### Frontend Environment Variables
+**Frontend** (`frontend/.env`):
 ```env
 VITE_API_URL=http://localhost:8000/api/v1
 ```
 
-## 🛠️ Development
-
-### Backend Development
-```bash
-cd backend
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run FastAPI server
-uvicorn main:app --reload
-
-# Run Celery worker
-celery -A app.core.celery_app worker -l info
-```
-
-### Frontend Development
-```bash
-cd frontend
-
-# Install dependencies
-npm install
-
-# Run development server
-npm run dev
-
-# Build for production
-npm run build
-```
+---
 
 ## 📡 API Endpoints
 
+### Authentication
+- `POST /api/v1/auth/register` - Create new user account
+- `POST /api/v1/auth/login` - Login and receive JWT token
+
 ### Strategies
 - `POST /api/v1/strategies/` - Create new strategy
-- `GET /api/v1/strategies/` - List all strategies
-- `GET /api/v1/strategies/{id}` - Get strategy by ID
-- `PUT /api/v1/strategies/{id}` - Update strategy
-- `DELETE /api/v1/strategies/{id}` - Delete strategy
+- `GET /api/v1/strategies/` - List all user strategies
+- `GET /api/v1/strategies/{id}` - Get strategy details
+- `PUT /api/v1/strategies/{id}` - Update strategy configuration
+- `DELETE /api/v1/strategies/{id}` - Delete strategy and all backtests
 
 ### Backtests
-- `POST /api/v1/backtests/strategies/{id}/run` - Start backtest
-- `GET /api/v1/backtests/status/{task_id}` - Check task status
-- `GET /api/v1/backtests/{id}` - Get backtest results
+- `POST /api/v1/backtests/strategies/{id}/run` - Execute backtest
+- `GET /api/v1/backtests/status/{task_id}` - Check execution status
+- `GET /api/v1/backtests/{id}` - Get detailed results
 - `GET /api/v1/backtests/` - List all backtests
-- `GET /api/v1/backtests/strategy/{id}/results` - Get strategy's backtests
 
-## 🎨 Key Features
+### Indicators
+- `GET /api/v1/indicators/list` - Available indicators with parameters
+- `GET /api/v1/indicators/templates` - Strategy code templates
+- `POST /api/v1/indicators/validate` - Validate custom Python code
 
-✅ **Async Architecture**: FastAPI + asyncpg for high performance
-✅ **Background Processing**: Celery for non-blocking backtests
-✅ **Real-time Updates**: Dashboard polls for backtest progress
-✅ **Professional Charts**: TradingView Lightweight Charts
-✅ **Type Safety**: Full TypeScript frontend
-✅ **Responsive Design**: TailwindCSS with mobile support
-✅ **Containerized**: Easy deployment with Docker Compose
-✅ **Modular Design**: Clear separation of concerns
-✅ **Live Data**: Alpaca API integration (with fallback simulation)
-✅ **AI Integration**: Sentiment + prediction signals
-
-## 🔐 Alpaca API Setup
-
-1. Sign up at https://alpaca.markets/
-2. Generate API keys (paper trading recommended)
-3. Add keys to `.env` file
-4. Restart services: `docker-compose restart`
-
-Without API keys, the system generates realistic simulated data.
-
-## 📈 Performance Metrics
-
-The platform calculates:
-- **Total Return**: Percentage gain/loss
-- **Sharpe Ratio**: Risk-adjusted return (annualized)
-- **Maximum Drawdown**: Largest peak-to-trough decline
-- **Win Rate**: Percentage of profitable trades
-- **Total Trades**: Number of round-trip trades
-
-## 🐛 Troubleshooting
-
-### Database Connection Issues
-```bash
-# Check database status
-docker-compose ps db
-
-# View database logs
-docker-compose logs db
-```
-
-### Celery Worker Not Processing
-```bash
-# Check worker status
-docker-compose ps worker
-
-# View worker logs
-docker-compose logs worker
-```
-
-### Frontend Can't Connect to Backend
-1. Check backend is running: `docker-compose ps backend`
-2. Verify CORS settings in `backend/app/core/config.py`
-3. Check frontend env: `frontend/.env`
-
-## 🚢 Production Deployment
-
-For production:
-1. Use production-grade database (managed PostgreSQL)
-2. Enable Redis persistence
-3. Configure environment-specific secrets
-4. Set up reverse proxy (nginx)
-5. Enable HTTPS
-6. Configure logging and monitoring
-7. Scale Celery workers as needed
-
-## 📝 License
-
-This project is created as a demonstration platform for educational purposes.
-
-## 🤝 Contributing
-
-This is a complete, self-contained trading platform. Feel free to extend with:
-- Additional technical indicators
-- Real sentiment analysis (FinBERT integration)
-- More sophisticated ML models
-- Live trading capabilities
-- Multiple asset support
-- Advanced risk management
+Full API documentation available at: http://localhost:8000/docs
 
 ---
 
-**Built with ❤️ using FastAPI, React, and modern DevOps practices**
+## 🎨 Architecture Highlights
+
+### Backend Architecture
+- **Async-First Design**: FastAPI with asyncpg for concurrent request handling
+- **Task Queue Pattern**: Celery workers for CPU-intensive backtests
+- **Repository Pattern**: CRUD operations abstracted from business logic
+- **Service Layer**: Clean separation of data access and business logic
+- **Schema Validation**: Pydantic models for request/response validation
+
+### Frontend Architecture
+- **Component-Based**: Reusable React components with TypeScript
+- **Context API**: Global authentication state management
+- **Protected Routes**: Authentication-based route guards
+- **API Service Layer**: Centralized API communication
+- **Responsive Design**: Mobile-first with TailwindCSS
+
+### Security
+- **JWT Authentication**: Token-based auth with expiration
+- **Password Hashing**: Bcrypt for secure password storage
+- **RestrictedPython**: Sandboxed execution of user code
+- **CORS Protection**: Configured allowed origins
+- **Environment Secrets**: Sensitive data in environment variables
+
+---
+
+## 🛠️ Development
+
+### Local Development (Without Docker)
+
+**Backend**:
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn main:app --reload
+
+# In separate terminal for Celery worker
+celery -A app.core.celery_app worker -l info
+```
+
+**Frontend**:
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+### Testing
+```bash
+# Backend tests
+cd backend
+pytest
+
+# Frontend tests
+cd frontend
+npm run test
+```
+
+---
+
+## 📈 Performance Metrics Explained
+
+- **Total Return**: Percentage gain/loss from initial capital
+- **Sharpe Ratio**: Risk-adjusted return (annualized). Higher is better. >1 is good, >2 is excellent
+- **Maximum Drawdown**: Largest peak-to-trough decline. Lower is better
+- **Win Rate**: Percentage of profitable trades
+- **Total Trades**: Number of complete buy-sell cycles
+
+---
+
+## 🚀 Production Deployment Considerations
+
+1. **Database**: Use managed PostgreSQL (AWS RDS, DigitalOcean, etc.)
+2. **Redis**: Enable persistence for task result storage
+3. **Secrets Management**: Use environment-specific secrets (AWS Secrets Manager, etc.)
+4. **Reverse Proxy**: nginx for load balancing and SSL termination
+5. **HTTPS**: Enable SSL certificates (Let's Encrypt)
+6. **Monitoring**: Application logging and performance monitoring
+7. **Scaling**: Horizontal scaling of Celery workers based on load
+8. **CI/CD**: Automated testing and deployment pipelines
+
+---
+
+## 🤝 Contributing
+
+Potential enhancements:
+- Additional technical indicators (Ichimoku, Fibonacci, etc.)
+- Multi-asset portfolio backtesting
+- Walk-forward optimization
+- Monte Carlo simulation
+- Real-time paper trading
+- Advanced risk management (stop-loss, take-profit)
+- Portfolio optimization algorithms
+- Integration with additional data providers
+
+---
+
+## 📝 License
+
+This project is available for educational and portfolio demonstration purposes.
+
+---
+
+## 👨‍💻 Author
+
+Built as a demonstration of full-stack development capabilities including:
+- Modern web frameworks (FastAPI, React)
+- Machine learning integration (TensorFlow/Keras)
+- Financial data analysis (pandas, NumPy)
+- Distributed systems (Celery, Redis)
+- Containerization (Docker)
+- TypeScript and type-safe development
+- Asynchronous programming patterns
+- RESTful API design
+
+---
+
+**Built with modern technologies and best practices for production-ready applications**
