@@ -20,3 +20,4 @@ python-multipart==0.0.6
 email-validator==2.1.0
 tensorflow-cpu==2.17.1
 RestrictedPython==6.2
+slowapi==0.1.9

@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     ALPACA_DATA_URL: str = "https://data.alpaca.markets"
 
     # Security
-    SECRET_KEY: str = "your-secret-key-here-change-in-production-min-32-chars"
+    SECRET_KEY: str = "3DvbnwzQiobupxbOTlUDfahV5JMkPYwZ"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # 7 days
 
     # API Configuration

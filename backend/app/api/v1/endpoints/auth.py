@@ -1,5 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Request
 from sqlalchemy.ext.asyncio import AsyncSession
+from slowapi import Limiter
+from slowapi.util import get_remote_address
 
 from app.db.session import get_db
 from app.schemas.user import UserCreate, UserLogin, UserResponse, Token
@@ -9,14 +11,17 @@ from app.core.deps import get_current_user
 from app.models.user import User
 
 router = APIRouter()
+limiter = Limiter(key_func=get_remote_address)
 
 
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+@limiter.limit("5/minute")
 async def register(
+    request: Request,
     user_data: UserCreate,
     db: AsyncSession = Depends(get_db)
 ):
-    """Register a new user."""
+    """Register a new user. Rate limit: 5 registrations per minute per IP."""
     # Check if user already exists
     existing_user = await crud_user.get_user_by_email(db, user_data.email)
     if existing_user:
@@ -31,11 +36,13 @@ async def register(
 
 
 @router.post("/login", response_model=Token)
+@limiter.limit("10/minute")
 async def login(
+    request: Request,
     credentials: UserLogin,
     db: AsyncSession = Depends(get_db)
 ):
-    """Login and get access token."""
+    """Login and get access token. Rate limit: 10 attempts per minute per IP."""
     # Authenticate user
     user = await crud_user.authenticate_user(db, credentials.email, credentials.password)
     if not user:

@@ -8,6 +8,7 @@ from app.services.data_service import DataService
 from app.services.ai_signals import AISignalsService
 from app.services.backtester import BacktesterService
 from app.services.lstm_trainer import LSTMTrainer
+from app.services.model_cleanup import ModelCleanupService
 from app.models.backtest_result import BacktestResult
 from app.models.strategy import Strategy
 from app.models.lstm_model import LSTMModel
@@ -249,6 +250,29 @@ def run_backtest_task(self, strategy_id: int):
             backtest.completed_at = datetime.utcnow()
 
             db.commit()
+
+        # Clean up model files after successful backtest
+        if use_prediction and lstm_config:
+            self.update_state(state='PROGRESS', meta={'current': 95, 'total': 100, 'status': 'Cleaning up model files...'})
+            try:
+                cleanup_service = ModelCleanupService()
+                # Use synchronous cleanup since we're in a sync Celery task
+                lstm_model = db.query(LSTMModel).filter(LSTMModel.strategy_id == strategy_id).first()
+                if lstm_model and lstm_model.status == "SUCCESS":
+                    # Delete the model file from disk
+                    if lstm_model.model_path:
+                        cleanup_service.delete_model_file(lstm_model.model_path)
+
+                    # Clear unnecessary database fields
+                    lstm_model.model_path = None  # Remove file path reference
+                    lstm_model.scaler_params = None  # Remove scaler params (no longer needed)
+                    # Keep training_history for now (users might want to see it)
+
+                    db.commit()
+                    print(f"Successfully cleaned up model files for strategy {strategy_id}")
+            except Exception as e:
+                # Don't fail the entire backtest if cleanup fails
+                print(f"Warning: Model cleanup failed: {e}")
 
         self.update_state(state='SUCCESS', meta={'current': 100, 'total': 100, 'status': 'Complete!'})
 

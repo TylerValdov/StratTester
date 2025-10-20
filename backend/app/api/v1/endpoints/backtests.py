@@ -1,7 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks
+from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List
 from celery.result import AsyncResult
+from slowapi import Limiter
+from slowapi.util import get_remote_address
 from app.db.session import get_db
 from app.schemas.backtest_result import (
     BacktestTaskResponse,
@@ -15,10 +17,13 @@ from app.core.deps import get_current_user
 from app.models.user import User
 
 router = APIRouter()
+limiter = Limiter(key_func=get_remote_address)
 
 
 @router.post("/strategies/{strategy_id}/run", response_model=BacktestTaskResponse, status_code=status.HTTP_202_ACCEPTED)
+@limiter.limit("20/hour")
 async def run_backtest(
+    request: Request,
     strategy_id: int,
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
@@ -26,6 +31,7 @@ async def run_backtest(
     """
     Start a backtest for a strategy. Returns immediately with a task ID.
     The backtest runs in the background via Celery.
+    Rate limit: 20 backtests per hour per IP.
     """
     # Check if strategy exists and user owns it
     strategy = await crud_strategy.get_strategy(db, strategy_id)
