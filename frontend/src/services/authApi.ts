@@ -29,14 +29,6 @@ export const authService = {
     });
     return response.data;
   },
-
-  logout: async (token: string): Promise<void> => {
-    await authApi.post('/auth/logout', null, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-  },
 };
 
 export default authApi;

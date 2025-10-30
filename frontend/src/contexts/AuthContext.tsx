@@ -45,11 +45,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = () => {
-    if (token) {
-      authService.logout(token).catch(() => {
-        // Ignore errors on logout
-      });
-    }
+    // Logout is handled client-side by clearing token and user data
     setUser(null);
     setToken(null);
     localStorage.removeItem('token');

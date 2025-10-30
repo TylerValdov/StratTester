@@ -12,7 +12,6 @@ from app.services.model_cleanup import ModelCleanupService
 from app.models.backtest_result import BacktestResult
 from app.models.strategy import Strategy
 from app.models.lstm_model import LSTMModel
-from app.models.user import User  # Import User model for relationships
 
 
 # Create synchronous database session for Celery tasks

@@ -70,12 +70,3 @@ async def get_current_user_info(
 ):
     """Get current user information."""
     return current_user
-
-
-@router.post("/logout")
-async def logout():
-    """
-    Logout endpoint (for consistency).
-    With JWT, logout is handled client-side by removing the token.
-    """
-    return {"message": "Successfully logged out"}
